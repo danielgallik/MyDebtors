@@ -207,16 +207,6 @@ namespace MyDebtors.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_ReceiverId",
-                table: "Transactions",
-                column: "ReceiverId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transactions_SenderId",
-                table: "Transactions",
-                column: "SenderId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -226,6 +216,16 @@ namespace MyDebtors.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_ReceiverId",
+                table: "Transactions",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_SenderId",
+                table: "Transactions",
+                column: "SenderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

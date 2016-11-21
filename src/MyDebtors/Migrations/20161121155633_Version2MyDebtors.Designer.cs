@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MyDebtors.Data;
+using MyDebtors.Models;
 
 namespace MyDebtors.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161121152713_Version2MyDebtors")]
+    [Migration("20161121155633_Version2MyDebtors")]
     partial class Version2MyDebtors
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,29 +124,6 @@ namespace MyDebtors.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MyDebtors.Data.Transaction", b =>
-                {
-                    b.Property<string>("Id");
-
-                    b.Property<decimal>("Amount");
-
-                    b.Property<string>("Comment");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("ReceiverId");
-
-                    b.Property<string>("SenderId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Transactions");
-                });
-
             modelBuilder.Entity("MyDebtors.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
@@ -196,6 +173,29 @@ namespace MyDebtors.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MyDebtors.Models.Transaction", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("ReceiverId");
+
+                    b.Property<string>("SenderId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -233,7 +233,7 @@ namespace MyDebtors.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MyDebtors.Data.Transaction", b =>
+            modelBuilder.Entity("MyDebtors.Models.Transaction", b =>
                 {
                     b.HasOne("MyDebtors.Models.ApplicationUser", "Receiver")
                         .WithMany()
