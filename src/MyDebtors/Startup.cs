@@ -52,6 +52,18 @@ namespace MyDebtors
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.Configure<IdentityOptions>(option =>
+            {
+                option.Password.RequireLowercase = false;
+                option.Password.RequireDigit = true;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireUppercase = false;
+                option.Password.RequiredLength = 6;
+
+                option.Lockout.MaxFailedAccessAttempts = 10;
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
