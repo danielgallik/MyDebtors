@@ -1,0 +1,14 @@
+﻿@using System.Threading.Tasks
+@using MyDebtors.Models.HomeViewModel
+@model MyDebtors.Models.HomeViewModel.DetailViewModel
+
+@Html.Partial("UserNavigation");
+@Html.Partial("NewTransaction", new NewTransactionViewModel()
+{
+    Name = Model.UserName
+});
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

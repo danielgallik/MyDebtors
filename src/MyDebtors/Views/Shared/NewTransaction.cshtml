@@ -1,0 +1,33 @@
+@using MyDebtors.Models.HomeViewModel
+@model NewTransactionViewModel
+
+<form asp-controller="Home" asp-action="AddTransaction" asp-route-userId="@ViewData["UserId"]" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Amount" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Comment" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Comment" class="form-control" />
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" name="TransactionType" value="@TransactionType.Debt" class="btn btn-default">Add Debt</button>
+            <button type="submit" name="TransactionType" value="@TransactionType.Paymant" class="btn btn-default">Add Paymant</button>
+        </div>
+    </div>
+</form>
