@@ -8,8 +8,36 @@
 @if (Model != null)
 {
     // Authorize user
-    @Html.Partial("UserNavigation");
-    @Html.Partial("NewTransaction", new NewTransactionViewModel());
+    <nav class="col-md-3">
+        @Html.Partial("PartialViews/UserNavigationPartialView")
+    </nav>
+    <section class="col-md-9">
+        <div class="row">
+            @Html.Partial("PartialViews/NewTransactionPartialView", new NewTransactionViewModel())
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-xs-12">
+                <span class="pull-left">Total ballance:</span>
+                <span class="pull-right">@Html.DisplayFor(m => m.TotalBalance)</span>
+            </div>
+            <hr />
+            <h2>Last transactions:</h2>
+            <table class="table table-striped">
+                <tbody>
+                    @foreach (var item in Model.Transactions)
+                {
+                        <tr>
+                            <td>@Html.DisplayFor(m => item.Name)</td>
+                            <td>@Html.DisplayFor(m => item.Amount)</td>
+                            <td>@Html.DisplayFor(m => item.Comment)</td>
+                            <td>@Html.DisplayFor(m => item.Date)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }
 else
 {

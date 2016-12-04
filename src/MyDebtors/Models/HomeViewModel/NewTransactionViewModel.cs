@@ -1,19 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyDebtors.Models.HomeViewModel
 {
     public class NewTransactionViewModel
     {
+        [HiddenInput]
+        public string Id { get; set; }
+
         [Required]
+        [Display(Prompt = "Name")]
         public string Name { get; set; }
+
         [Required]
-        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
+        [Display(Prompt = "Amount")]
         public decimal? Amount { get; set; }
+
+        [Display(Prompt = "Comment")]
         public string Comment { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 

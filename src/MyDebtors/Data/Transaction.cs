@@ -1,6 +1,6 @@
 using System;
 
-namespace MyDebtors.Models
+namespace MyDebtors.Data
 {
     public class Transaction
     {

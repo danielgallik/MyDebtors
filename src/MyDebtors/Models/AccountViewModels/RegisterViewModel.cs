@@ -9,6 +9,10 @@ namespace MyDebtors.Models.AccountViewModels
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "User name")]
+        public string Name { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

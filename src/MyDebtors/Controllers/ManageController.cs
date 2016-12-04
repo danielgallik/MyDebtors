@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyDebtors.Data;
 using MyDebtors.Models;
 using MyDebtors.Models.ManageViewModels;
 using MyDebtors.Services;

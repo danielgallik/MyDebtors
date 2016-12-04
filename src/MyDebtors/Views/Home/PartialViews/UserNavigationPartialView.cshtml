@@ -1,0 +1,16 @@
+@using MyDebtors.Models.HomeViewModel
+@{
+    var users = (List<UserNavigationViewModel>)ViewData["UserList"];
+}
+
+<table class="table table-hover">
+    <tbody>
+        @foreach (var user in users)
+        {
+            <tr href="@Url.RouteUrl("detail", new {userId = user.Id})" class="actionLink @(user.Id == (string) ViewData["UserId"] ? "active" : "")">
+                <td>@user.Name</td>
+                <td>@Html.DisplayFor(m => user.Amount)</td>
+            </tr>
+        }
+    </tbody>
+</table>

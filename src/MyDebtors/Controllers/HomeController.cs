@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyDebtors.Models;
+using MyDebtors.Data;
+using MyDebtors.Data.Repositories.Interfaces;
 using MyDebtors.Models.HomeViewModel;
 
 namespace MyDebtors.Controllers
@@ -10,28 +12,27 @@ namespace MyDebtors.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _singInManager;
+        private readonly IDebtorsRepository _repository;
 
-        public HomeController(SignInManager<ApplicationUser> singInManager)
+        public HomeController(IDebtorsRepository repository)
         {
-            _singInManager = singInManager;
+            _repository = repository;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
-            if (!_singInManager.IsSignedIn(User))
+            var currentUserId = GetCurrentUserId();
+            if (currentUserId == null)
             {
                 return View((IndexViewModel)null);
             }
+            ViewData["UserList"] = _repository.GetDebtors(currentUserId);
 
-            ViewData["UserList"] = new List<UserNavigationViewModel>(); //TODO: Load users from db (who have transaction with current user)
-
-            var transactions = new List<TransactionViewModel>(); //TODO: Select transactions from db
-            var totalBalance = 0m; //TODO: Calculate from all user transactions
+            var transactions = _repository.GetTransactions(currentUserId);
             var model = new IndexViewModel()
             {
-                TotalBalance = totalBalance,
+                TotalBalance = transactions.Sum(x => x.Amount),
                 Transactions = transactions
             };
             return View(model);
@@ -40,18 +41,23 @@ namespace MyDebtors.Controllers
         [HttpGet]
         public IActionResult Detail(string userId)
         {
-            var user = new ApplicationUser() { UserName = userId }; //TODO: Get user from db by userId  
-            // add check if user exist
+            var user = _repository.GetUserById(userId);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Debtor not found.");
+                return RedirectToAction("Index");
+            }
+            var currentUserId = GetCurrentUserId();
 
-            ViewData["UserList"] = new List<UserNavigationViewModel>(); //TODO: Load users from db (who have transaction with current user)
-            ViewData["UserId"] = user.Id;
+            ViewData["UserList"] = _repository.GetDebtors(currentUserId);
+            ViewData["UserId"] = userId;
 
-            var transactions = new List<TransactionViewModel>(); //TODO: Load transactions from db by user
-            var totalBalance = 0m; //TODO: Calculate from all user transactions
+            var transactions = _repository.GetTransactions(currentUserId, userId);
             var model = new DetailViewModel()
             {
-                UserName = user.UserName,
-                TotalBalance = totalBalance,
+                Id = user.Id,
+                UserName = user.Name,
+                TotalBalance = transactions.Sum(x => x.Amount),
                 Transactions = transactions
             };
             return View(model);
@@ -59,15 +65,31 @@ namespace MyDebtors.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddTransaction(NewTransactionViewModel model, string userId)
+        public IActionResult AddTransaction(NewTransactionViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                //TODO: Add new transaction to db and redirect to detail page of transaction user
-                return RedirectToAction("Detail", new { userId = model.Name });
+                return RedirectToAction("Index");
+            }
+            var userId = GetCurrentUserId();
+
+            model.Id = _repository.GetOrCreateDebtor(userId, model.Name).Id;
+
+            if (model.TransactionType == TransactionType.Paymant)
+            {
+                _repository.AddTransaction(userId, model.Id, model.Amount.Value, model.Comment);
+            }
+            else
+            {
+                _repository.AddTransaction(model.Id, userId, model.Amount.Value, model.Comment);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToRoute("detail", new { userId = model.Id });
+        }
+
+        private string GetCurrentUserId()
+        {
+            return User?.Claims?.FirstOrDefault()?.Value;
         }
     }
 }

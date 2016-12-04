@@ -2,12 +2,40 @@
 @using MyDebtors.Models.HomeViewModel
 @model MyDebtors.Models.HomeViewModel.DetailViewModel
 
-@Html.Partial("UserNavigation");
-@Html.Partial("NewTransaction", new NewTransactionViewModel()
-{
-    Name = Model.UserName
-});
 
+<nav class="col-md-3">
+        @Html.Partial("PartialViews/UserNavigationPartialView")
+</nav>
+<section class="col-md-9">
+    <div class="row">
+        @Html.Partial("PartialViews/NewTransactionPartialView", new NewTransactionViewModel()
+{
+    Id = Model.Id,
+    Name = Model.UserName
+})
+    </div>
+    <div class="row">
+        <h3>@Model.UserName</h3>
+        <div class="col-xs-12">
+            <span class="pull-left">Total ballance:</span>
+            <span class="pull-right">@Html.DisplayFor(m => m.TotalBalance)</span>
+        </div>
+        <hr />
+        <h2>Last transactions:</h2>
+        <table class="table table-striped">
+            <tbody>
+                @foreach (var item in Model.Transactions)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => item.Amount)</td>
+                        <td>@Html.DisplayFor(m => item.Comment)</td>
+                        <td>@Html.DisplayFor(m => item.Date)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

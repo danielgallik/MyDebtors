@@ -8,9 +8,10 @@ namespace MyDebtors.Models.HomeViewModel
 {
     public class DetailViewModel
     {
+        public string Id { get; set; }
         public string UserName { get; set; }
 
-        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
         public decimal TotalBalance { get; set; }
 
         public IEnumerable<TransactionViewModel> Transactions;

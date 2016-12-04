@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyDebtors.Data;
+using MyDebtors.Data.Repositories;
+using MyDebtors.Data.Repositories.Interfaces;
 using MyDebtors.Models;
 using MyDebtors.Services;
 
@@ -49,6 +52,7 @@ namespace MyDebtors
             services.AddMvc();
 
             // Add application services.
+            services.AddScoped<IDebtorsRepository, DebtorsRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
