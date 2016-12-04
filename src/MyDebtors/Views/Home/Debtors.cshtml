@@ -1,0 +1,70 @@
+﻿@using System.Threading.Tasks
+@using MyDebtors.Models.HomeViewModel
+@model MyDebtors.Models.HomeViewModel.DebtorsViewModel
+
+<nav class="col-md-3 side-navigation">
+    @Html.Partial("PartialViews/UserNavigationPartialView")
+</nav>
+<section class="col-md-9 panel panel-default">
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.Partial("PartialViews/NewTransactionPartialView", new NewTransactionViewModel()
+            {
+                Name = Model.Debtor?.Name
+            })
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-xs-12">
+            @if (Model.Debtor != null)
+            {
+                <h2>@Model.Debtor.Name</h2>
+            }
+            <h3>
+                <span>Total ballance:</span>
+                <span class="pull-right">@Html.DisplayFor(m => m.TotalBalance)</span>
+            </h3>
+            <hr />
+            <h3>Last transactions:</h3>
+            <table class="table table-striped">
+                <tbody>
+                    @foreach (var item in Model.Transactions)
+                    {
+                        <tr>
+                            @if (Model.Debtor == null)
+                            {
+                                <td>@Html.DisplayFor(m => item.Name)</td>
+                            }
+                            <td>@Html.DisplayFor(m => item.Amount)</td>
+                            <td>@Html.DisplayFor(m => item.Comment)</td>
+                            <td>@Html.DisplayFor(m => item.Date)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+
+    <script>
+        $(document).ready(function () {
+            var filter = document.getElementById("navigationFilter");
+
+            filter.onkeyup = function (evt) {
+                console.log(filter.value);
+                $('#debtorsNavigationTable tbody').children('tr').each(function () {
+                    $(this).show();
+                    if (this.getElementsByTagName("td")[0].innerText.toLowerCase().indexOf(filter.value.toLowerCase()) === -1) {
+                        $(this).hide();
+                    }
+                });
+            };
+
+        });
+    </script>
+}

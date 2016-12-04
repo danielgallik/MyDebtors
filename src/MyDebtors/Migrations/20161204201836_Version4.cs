@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MyDebtors.Migrations
 {
-    public partial class Version3 : Migration
+    public partial class Version4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

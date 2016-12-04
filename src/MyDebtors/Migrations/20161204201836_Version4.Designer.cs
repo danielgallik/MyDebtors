@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MyDebtors.Data;
-using MyDebtors.Models;
 
 namespace MyDebtors.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161129230401_Version3")]
-    partial class Version3
+    [Migration("20161204201836_Version4")]
+    partial class Version4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,7 +124,7 @@ namespace MyDebtors.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MyDebtors.Models.ApplicationUser", b =>
+            modelBuilder.Entity("MyDebtors.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -176,7 +175,7 @@ namespace MyDebtors.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MyDebtors.Models.Transaction", b =>
+            modelBuilder.Entity("MyDebtors.Data.Transaction", b =>
                 {
                     b.Property<string>("Id");
 
@@ -209,7 +208,7 @@ namespace MyDebtors.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("MyDebtors.Models.ApplicationUser")
+                    b.HasOne("MyDebtors.Data.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -217,7 +216,7 @@ namespace MyDebtors.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("MyDebtors.Models.ApplicationUser")
+                    b.HasOne("MyDebtors.Data.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -230,19 +229,19 @@ namespace MyDebtors.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MyDebtors.Models.ApplicationUser")
+                    b.HasOne("MyDebtors.Data.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MyDebtors.Models.Transaction", b =>
+            modelBuilder.Entity("MyDebtors.Data.Transaction", b =>
                 {
-                    b.HasOne("MyDebtors.Models.ApplicationUser", "Receiver")
+                    b.HasOne("MyDebtors.Data.ApplicationUser", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverId");
 
-                    b.HasOne("MyDebtors.Models.ApplicationUser", "Sender")
+                    b.HasOne("MyDebtors.Data.ApplicationUser", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId");
                 });

@@ -98,9 +98,9 @@ namespace MyDebtors
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
-                    name: "detail",
-                    template: "Detail/{userId}",
-                    defaults: new { controller = "Home", action = "Detail" });
+                    name: "debtors",
+                    template: "Debtors/{debtorId}",
+                    defaults: new { controller = "Home", action = "Debtors" });
             });
         }
     }

@@ -1,16 +1,25 @@
 @using MyDebtors.Models.HomeViewModel
 @{
-    var users = (List<UserNavigationViewModel>)ViewData["UserList"];
+    var debtors = (List<UserNavigationViewModel>)ViewData["UserList"];
 }
-
-<table class="table table-hover">
-    <tbody>
-        @foreach (var user in users)
-        {
-            <tr href="@Url.RouteUrl("detail", new {userId = user.Id})" class="actionLink @(user.Id == (string) ViewData["UserId"] ? "active" : "")">
-                <td>@user.Name</td>
-                <td>@Html.DisplayFor(m => user.Amount)</td>
+<div class="panel panel-default">
+    <table id="debtorsNavigationTable" class="table table-hover">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    <input id="navigationFilter" class="form-control" type="text" placeholder="Filter..." />
+                </td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var debtor in debtors)
+            {
+                <tr href="@Url.RouteUrl("debtors", new { debtorId = debtor.Id })" class="actionLink @(debtor.Id == (string)ViewData["DebtorId"] ? "active" : "")">
+                    <td>@debtor.Name</td>
+                    <td>@Html.DisplayFor(m => debtor.Amount)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

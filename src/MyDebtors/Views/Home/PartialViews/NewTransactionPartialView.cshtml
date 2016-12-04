@@ -1,8 +1,7 @@
 @using MyDebtors.Models.HomeViewModel
 @model NewTransactionViewModel
 
-<div asp-validation-summary="All" class="text-danger"></div>
-<form asp-controller="Home" asp-action="AddTransaction" class="form-inline" method="post">
+<form id="transactionForm" asp-controller="Home" asp-action="Debtors" asp-route-debtorId="@ViewData["DebtorId"]" class="form-inline" method="post">
     <div class="form-group">
         <input asp-for="Id" />
         <input asp-for="Name" class="form-control" />

@@ -118,8 +118,8 @@ namespace MyDebtors.Data.Repositories
             var transaction = new Transaction()
             {
                 Id = Guid.NewGuid().ToString(),
-                Sender = new ApplicationUser() { Id = senderId },
-                Receiver = new ApplicationUser() { Id = receiverId },
+                SenderId = senderId,
+                ReceiverId = receiverId,
                 Amount = amount,
                 Comment = comment,
                 Date = DateTime.Now
