@@ -65,12 +65,14 @@ namespace MyDebtors.Data.Repositories
         {
             var debts = _db.Transactions.Where(x => x.Receiver.Id == primaryUserId && x.Sender.Id == secoundaryUserId).Select(x => new TransactionViewModel()
             {
+                Name = x.Sender.Name,
                 Amount = -x.Amount,
                 Comment = x.Comment,
                 Date = x.Date
             });
             var payments = _db.Transactions.Where(x => x.Sender.Id == primaryUserId && x.Receiver.Id == secoundaryUserId).Select(x => new TransactionViewModel()
             {
+                Name = x.Receiver.Name,
                 Amount = x.Amount,
                 Comment = x.Comment,
                 Date = x.Date

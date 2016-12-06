@@ -25,6 +25,9 @@
                 <span>Total ballance:</span>
                 <span class="pull-right">@Html.DisplayFor(m => m.TotalBalance)</span>
             </h3>
+            <div>
+                <canvas id="chart"></canvas>
+            </div>
             <hr />
             <h3>Last transactions:</h3>
             <table class="table table-striped">
@@ -50,21 +53,52 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-
+    <script src="~/lib/moment/moment.js"></script>
+    <script src="~/lib/Chart.js/dist/Chart.js"></script>
     <script>
-        $(document).ready(function () {
-            var filter = document.getElementById("navigationFilter");
+        var datasets = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GetChartData()) as string);
 
-            filter.onkeyup = function (evt) {
-                console.log(filter.value);
-                $('#debtorsNavigationTable tbody').children('tr').each(function () {
-                    $(this).show();
-                    if (this.getElementsByTagName("td")[0].innerText.toLowerCase().indexOf(filter.value.toLowerCase()) === -1) {
-                        $(this).hide();
+        window.onload = function () {
+            moment().format('YYYY-MM-DD');
+
+            var ctx = document.getElementById("chart").getContext("2d");
+            window.myLine = new Chart(ctx,
+            {
+                type: 'line',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                displayFormats: {
+                                    day: 'll'
+                                }
+                            }
+                        }]
                     }
-                });
+                }
+            });
+
+
+            var filter = document.getElementById("navigationFilter");
+            filter.onkeyup = function(evt) {
+                console.log(filter.value);
+                $('#debtorsNavigationTable tbody')
+                    .children('tr')
+                    .each(function() {
+                        $(this).show();
+                        if (this.getElementsByTagName("td")[0].innerText
+                            .toLowerCase()
+                            .indexOf(filter.value.toLowerCase()) ===
+                            -1) {
+                            $(this).hide();
+                        }
+                    });
             };
 
-        });
+        };
     </script>
 }
