@@ -44,6 +44,7 @@ namespace MyDebtors.Controllers
             ViewData["StatusMessage"] =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.TestUser ? "Your can't change Jason's password."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
@@ -226,6 +227,10 @@ namespace MyDebtors.Controllers
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
+                if (user.Email == "jason@mail.com")
+                {
+                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.TestUser });
+                }
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
@@ -341,6 +346,7 @@ namespace MyDebtors.Controllers
 
         public enum ManageMessageId
         {
+            TestUser,
             AddPhoneSuccess,
             AddLoginSuccess,
             ChangePasswordSuccess,
