@@ -2,3 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
+<section>
+    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@Url.Action("Debtors")" method="post">
+        <div class="form-group">
+            <span>You can try app with Jason's account</span>
+            <input type="hidden" name="Email" value="jason@mail.com"/>
+            <input type="hidden" name="Password" value="jason1"/>
+            <button type="submit" class="btn btn-default">Log in as Jason</button>
+        </div>
+    </form>
+</section>

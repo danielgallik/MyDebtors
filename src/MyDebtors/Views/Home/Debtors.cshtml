@@ -60,6 +60,7 @@
 
         window.onload = function () {
             moment().format('YYYY-MM-DD');
+            Chart.defaults.global.elements.line.tension = 0;
 
             var ctx = document.getElementById("chart").getContext("2d");
             window.myLine = new Chart(ctx,
