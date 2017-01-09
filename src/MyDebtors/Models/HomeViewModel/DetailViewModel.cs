@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using MyDebtors.Data;
+using MyDebtors.Models.JavascriptModels;
 
 namespace MyDebtors.Models.HomeViewModel
 {
@@ -17,40 +16,45 @@ namespace MyDebtors.Models.HomeViewModel
 
         public IEnumerable<TransactionViewModel> Transactions;
 
-        public List<object> GetChartData()
+        public List<Dataset> GetChartData()
         {
             if (!Transactions.Any())
             {
-                return new List<object>();
+                return new List<Dataset>();
             }
-            var result = new List<object>();
-            var users = Transactions.GroupBy(x => x.Name);
-            foreach (var user in users)
+            var random = new Random();
+
+            var result = new List<Dataset>();
+            foreach (var user in Transactions.GroupBy(x => x.Name))
             {
-                var username = user.Key;
-                var data = new List<object>();
+                var r = random.Next(256);
+                var g = random.Next(256);
+                var b = random.Next(256);
 
-                var today = DateTime.Now.ToString("yyyy-MM-dd");
-                var days = user.OrderBy(x => x.Date).GroupBy(x => x.Date.ToString("yyyy-MM-dd"));
-                var sum = 0m;
-                var addToday = true;
-                foreach (var day in days)
+                var dataset = new Dataset()
                 {
-                    var key = day.Key;
-                    sum += day.Sum(x => x.Amount);
-                    data.Add(new { x = key, y = sum });
-
-                    if (today == key)
-                    {
-                        addToday = false;
-                    }
-                }
-                if (addToday)
-                {
-                    data.Add(new { x = today, y = sum });
-                }
-                result.Add(new { label = username, data = data });
+                    label = user.Key,
+                    fill = false,
+                    backgroundColor = $"rgba({r},{g},{b},0.4)",
+                    borderColor = $"rgba({r},{g},{b},1)"
+                };
+                dataset.GenerateData(user);
+                result.Add(dataset);
             }
+            if (result.Count() == 1)
+            {
+                result.First().fill = true;
+                return result;
+            }
+
+            var overallDataset = new Dataset()
+            {
+                label = "Overall ballance",
+                fill = true
+            };
+            overallDataset.GenerateData(Transactions);
+
+            result.Add(overallDataset);
             return result;
         }
     }

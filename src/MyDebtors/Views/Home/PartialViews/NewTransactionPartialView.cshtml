@@ -1,22 +1,22 @@
 @using MyDebtors.Models.HomeViewModel
 @model NewTransactionViewModel
 
+<h3>New Transaction:</h3>
 <form id="transactionForm" asp-controller="Home" asp-action="Debtors" asp-route-debtorId="@ViewData["DebtorId"]" class="form-inline" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <input asp-for="Id" />
         <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
         <input asp-for="Amount" class="form-control" />
-        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
     <div class="form-group">
         <input asp-for="Comment" class="form-control" />
-        <span asp-validation-for="Comment" class="text-danger"></span>
     </div>
     <div class="form-group">
         <button type="submit" name="TransactionType" value="@TransactionType.Debt" class="btn btn-default">Add Debt</button>
         <button type="submit" name="TransactionType" value="@TransactionType.Paymant" class="btn btn-default">Add Paymant</button>
     </div>
 </form>
+<br />

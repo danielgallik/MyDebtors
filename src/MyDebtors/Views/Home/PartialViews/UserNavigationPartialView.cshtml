@@ -2,24 +2,22 @@
 @{
     var debtors = (List<UserNavigationViewModel>)ViewData["UserList"];
 }
-<div class="panel panel-default">
-    <table id="debtorsNavigationTable" class="table table-hover">
-        <thead>
-            <tr>
-                <td colspan="2">
-                    <input id="navigationFilter" class="form-control" type="text" placeholder="Filter..." />
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var debtor in debtors)
+<table id="debtorsNavigationTable" class="table table-hover">
+    <thead>
+        <tr>
+            <td colspan="2">
+                <input id="navigationFilter" class="form-control" type="text" placeholder="Filter..." />
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var debtor in debtors)
             {
-                <tr href="@Url.RouteUrl("debtors", new { debtorId = debtor.Id })" class="actionLink @(debtor.Id == (string)ViewData["DebtorId"] ? "active" : "")">
-                    <td>@debtor.Name</td>
-                    <td>@Html.DisplayFor(m => debtor.Amount)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            <tr href="@Url.RouteUrl("debtors", new { debtorId = debtor.Id })" class="actionLink @(debtor.Id == (string)ViewData["DebtorId"] ? "active" : "")">
+                <td>@debtor.Name</td>
+                <td>@Html.DisplayFor(m => debtor.Amount)</td>
+            </tr>
+        }
+    </tbody>
+</table>
 

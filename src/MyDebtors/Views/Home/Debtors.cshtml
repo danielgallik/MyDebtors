@@ -2,53 +2,55 @@
 @using MyDebtors.Models.HomeViewModel
 @model MyDebtors.Models.HomeViewModel.DebtorsViewModel
 
-<nav class="col-md-3 side-navigation">
-    @Html.Partial("PartialViews/UserNavigationPartialView")
-</nav>
-<section class="col-md-9 panel panel-default">
-    <div class="row">
-        <div class="col-xs-12">
-            @Html.Partial("PartialViews/NewTransactionPartialView", new NewTransactionViewModel()
-            {
-                Name = Model.Debtor?.Name
-            })
-        </div>
-    </div>
-    <hr />
-    <div class="row">
-        <div class="col-xs-12">
-            @if (Model.Debtor != null)
-            {
-                <h2>@Model.Debtor.Name</h2>
-            }
-            <h3>
-                <span>Total ballance:</span>
-                <span class="pull-right">@Html.DisplayFor(m => m.TotalBalance)</span>
-            </h3>
-            <div>
-                <canvas id="chart"></canvas>
+<div class="row">
+    <div class="col-md-3">
+        <nav class="side-navigation">
+            <div class="panel panel-default">
+                @Html.Partial("PartialViews/UserNavigationPartialView")
             </div>
-            <hr />
-            <h3>Last transactions:</h3>
-            <table class="table table-striped">
-                <tbody>
-                    @foreach (var item in Model.Transactions)
-                    {
-                        <tr>
-                            @if (Model.Debtor == null)
-                            {
-                                <td>@Html.DisplayFor(m => item.Name)</td>
-                            }
-                            <td>@Html.DisplayFor(m => item.Amount)</td>
-                            <td>@Html.DisplayFor(m => item.Comment)</td>
-                            <td>@Html.DisplayFor(m => item.Date)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        </nav>
     </div>
-</section>
+    <div class="col-md-9">
+        <aside class="row">
+            <div class="col-xs-12 panel panel-default">
+                @Html.Partial("PartialViews/NewTransactionPartialView", new NewTransactionViewModel() { Name = Model.Debtor?.Name })
+            </div>
+        </aside>
+        <section class="row">
+            <div class="col-xs-12 panel panel-default">
+                @if (Model.Debtor != null)
+                {
+                    <h2>@Model.Debtor.Name</h2>
+                }
+                <h3>
+                    <span>Total ballance:</span>
+                    <span class="pull-right">@Html.DisplayFor(m => m.TotalBalance)</span>
+                </h3>
+                <div>
+                    <canvas id="chart"></canvas>
+                </div>
+                <hr />
+                <h3>Last transactions:</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var item in Model.Transactions)
+                        {
+                            <tr>
+                                @if (Model.Debtor == null)
+                                {
+                                    <td>@Html.DisplayFor(m => item.Name)</td>
+                                }
+                                <td>@Html.DisplayFor(m => item.Amount)</td>
+                                <td>@Html.DisplayFor(m => item.Comment)</td>
+                                <td>@Html.DisplayFor(m => item.Date)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
