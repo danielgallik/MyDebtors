@@ -1,18 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<aside>
-    <p>Try the app for managing debtors with Jason's account</p>
-    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@Url.Action("Debtors")" method="post">
-        <div class="form-group">
-            <input type="hidden" name="Email" value="jason@mail.com" />
-            <input type="hidden" name="Password" value="jason1" />
-            <button type="submit" class="btn btn-default">Log in as Jason</button>
-        </div>
-    </form>
-</aside>
-
 <article>
     <h1>How to save more money?</h1>
     <blockquote>
